@@ -32,6 +32,8 @@ plot(x,y)
 xlim <- range(x)
 ylim <- range(y)
 
+diff(xlim)
+
 # plot an empty plot
 plot(NA,  ylim = ylim, xlim = xlim, xlab = "", ylab = "", xaxt = "n", yaxt = "n", bty = "n")  # 
 
@@ -44,10 +46,10 @@ box()
 points(x,y)
 
 # add a single point
-points(3, 5, pch = 19, col = "purple", cex = 3)
+points(x, y, pch = 19, col = "purple", cex = 3)
 
 # add axis
-axis(1); axis(2)
+axis(1) ; axis(2)
 # hopefully this gives you an idea about the moudaliry of an R plot.
 # many of the different components can be customised
 # in the next section I show how you can do some fun changes to your plot
@@ -81,7 +83,7 @@ plot(x,y, las = 1, pch = 19, ylim = c(0, 12), col = "red", ylab= "random stuff",
 plot(x, y, las = 1, pch = 19, ylim = c(0, 12), col = "red", yaxt = "n")
 # ok, axis ticks and labels gone
 # let's make my own. First argument gives which axis you want: 1 = x, 2=y,3 top, 4 right side
-axis(2,c(2,6, 10), labels = c("low","medium","high"))
+axis(2,c(2,6, 10), labels = c("low","medium","high"), las = 1)
 
 # lets add some more data
 y2 <- runif(10, 0,12)
