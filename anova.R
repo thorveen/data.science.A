@@ -13,7 +13,7 @@
 # make a data set and test the anova
 weight.t <- c(4, 10, 3)
 sd.t <- c(1,1, 1)
-n.t <- c(10, 10, 15)
+n.t <- c(10, 10, 16)
 names.t <- c("bird", "mammals", "fish")
 animal.t <- rep( names.t, n.t)
 
@@ -85,6 +85,7 @@ t.test(d$weight[d$animal != "fish"] ~ d$animal[d$animal != "fish"])
 # --------- dummy variables
 model.matrix(m1)
 
+
 # ---------- means model
 m1.means <- lm(d$weight ~ d$animal - 1)
 model.matrix(m1.means)
@@ -125,11 +126,17 @@ summary(m2.3)
 anova(m2.1, m2.3)
 # not significantly affects model fit, exclude the term sex
 
-
-
 # type III through car package 
 Anova(m2.3, type = 3)
 
+
+# AIC model reduction
+AIC(m2.1)
+AIC(m2.3)
+# smaller is better
+library(MASS)
+stepAIC(m2.1)
+H# helps you do the model reduction
 
 # =============================
 # regression analysis
