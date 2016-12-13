@@ -9,43 +9,54 @@
 # 1) regression analysis
 # ==============================================================
 
-
+getwd()
 # --- a
 # read the data "data.regression.csv" and make a plot
 # pch = 16 and make the dots red
+list.files()
+d <- read.csv("data.regression.csv", stringsAsFactors = FALSE)
+str(d)
 
-
+plot(d$age, d$hormone, pch = 16, col = "red", las= 1, xlab = "age", ylab = "hormone level")
 
 # --- b
 # plot the simplest model, intercept only
+m0 <- lm(d$hormone ~ 1)
+summary(m0)
+abline(m0)
 
 
 # calculate the mean and plot is as a grey line, of thickness 2 and dashed (lty = ....)
-
+mean(d$hormone)
+lines(range(d$age), rep(mean(d$hormone), 2), col = "grey", lwd = 2, lty = "dashed")
 
 # check the mean with the model output
-
+m0$coefficients - mean(d$hormone)
 
 # get an idea of how much variance is explianed using the residuals
-
+str(m0)
+rs.sq.m0 <- sum(m0$residuals^2)
 
 
 # --- c
 # do  linear regression and fit the slope as well
-
-
+m1 <- lm(d$hormone ~ d$age)
+summary(m1)
 # plot the fitted line and make it grey
+abline(m1, col = "purple")
 
-
-# use the same measure as above to chekc if more or less variance is explained
-
+# use the same measure as above to check if more or less variance is explained
+(rs.sq.m1 <- sum(m1$residuals^2)) # 2.656717
+rs.sq.m0                          # 44.45072
 
 # --- d
 # use the anova() function on both models and interpret what this says
 # anova(model1, model2)
 
-# ---
+anova(m0, m1)
 
+# ---
+model.matrix(m1)
 
 # ==============================================================
 # 2) anova analysis
