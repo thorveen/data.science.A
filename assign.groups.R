@@ -4,10 +4,46 @@
 #
 
 set.seed(4)
-names.data.stars <- c("Jordan", " Laura", "Devon", "Sabine", "Fredrik", "Karla", "Samuel", "Alicia", "Rachel", "Anika")
+names.data.stars <- c("Jordan", "Laura", "Devon", "Sabine", "Frederik", "Karla", "Samuel", "Alicia", "Rachel", "Anika")
 length(names.data.stars)
 
 groups <- rep(LETTERS[1:3], c(3,4,3))
 names <- sample(names.data.stars, length(names.data.stars), replace = FALSE)
 
 (new.groups <- data.frame(groups, names))
+
+
+# for the GLM assignment
+BDC.groups <- c("C", "A", "C", "C", "B", "B", "B", "A", "A", "A")
+(groups.t <- cbind(names.data.stars, BDC.groups))
+
+
+ # for the next assignment we have five groups of two
+five.groups <- rep(c(LETTERS[1:5]), rep(2, 5))
+# sample from these randomly to make new groups
+new.t <- sample(five.groups, length(five.groups), replace = FALSE)
+
+# check if these duos have not been together before in a group
+gr.t <- unique(five.groups)
+for(i in 1:length(gr.t)){
+  # i <- 2
+  d.t <- which(new.t == gr.t[i])
+  if(groups.t[d.t[1], 2] == groups.t[d.t[2], 2]) print(paste("group ", i ," = same group", sep = ""))
+}
+
+# run til you get no warning
+groups.t2 <- cbind(groups.t, new.t)
+colnames(groups.t2)[3] <- "GLM.groups"
+
+# names.data.stars BDC.groups new.t
+#  [1,] "Jordan"         "C"        "C"  
+#  [2,] "Laura"          "A"        "D"  
+#  [3,] "Devon"          "C"        "B"  
+#  [4,] "Sabine"         "C"        "E"  
+#  [5,] "Frederik"       "B"        "A"  
+#  [6,] "Karla"          "B"        "D"  
+#  [7,] "Samuel"         "B"        "C"  
+#  [8,] "Alicia"         "A"        "B"  
+#  [9,] "Rachel"         "A"        "E"  
+# [10,] "Anika"          "A"        "A"  
+
