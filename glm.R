@@ -34,6 +34,9 @@ plot(d1$diam, d1$live, col = paste(col.t, alpha.t, sep = ""), pch = 16, ylab = "
 # as we know we only have 0' and 1's we can 'jitter the y values a little'
 jitter.val <- 0.2
 
+
+
+
 plot(d1$diam, jitter(d1$live, jitter.val), col = paste(col.t, alpha.t, sep = ""), pch = 16, las = 1,ylab = "death-survive",xlab = "diameter (cm)")
 
 # check this graph, what patter does this look like?
@@ -42,7 +45,11 @@ plot(d1$diam, jitter(d1$live, jitter.val), col = paste(col.t, alpha.t, sep = "")
 # choose a link function. 0 and 1 data 
 # binomial
 
+
+
 glm.0 <- glm(live ~ diam, data = d1, family = binomial)
+# same as family = binomial(link = "logit")
+
 summary(glm.0)
 # note that the estimates are still on the logit scale
 
@@ -54,9 +61,55 @@ coef(glm.0)
 
 
 # let's plot the fitted lines (this is already transformed onto the original scale)
+
+
+
+
 lines(d1$diam, glm.0$fitted.values)
 
 # small steps to make it nice and smooth
+
+
+
 diam.range.for.predict <- seq(min(d1$diam), max(d1$diam), 0.1)
-pred.response <- predict(glm.0, list (diam = diam.range.for.predict), type = "response")
+pred.response <- predict(glm.0, list(diam = diam.range.for.predict), type = "response")
 lines(diam.range.for.predict, pred.response, col = "red")
+
+# manually do model reduction
+
+
+
+glm.1 <- glm(live ~ 1, data = d1, family = binomial)
+summary(glm.1)
+
+anova(glm.0, glm.1, test = "Chisq")
+# significant, so do not exclude diameter from the model
+
+# what about the AIC scores?
+# 328.31 vs 354.16
+
+# what is the diameter at which 50% of the individuals expected to die?
+summary(glm.0)
+# - intercept/ slope
+- (-1.72924)/ 0.09611
+
+# think of a way to do this more nicely using model output
+
+
+
+library(MASS)
+dose.p(glm.0, p = 0.5)
+
+# add a line to show this, both horizontal and vertical
+
+x.5 <- dose.p(glm.0, p = 0.5)[1]
+y.5 <- 0.5
+# where to start on the X and the Y
+x.start <- min(d1$diam)
+y.start <- 0
+# vertical lines, same x, different y
+lines(rep(x.5, 2), c(y.start, y.5), col = "grey", lty = "dashed")
+# horizontal
+lines(c(x.start, x.5), rep(y.5, 2), col = "grey", lty = "dashed")
+
+
