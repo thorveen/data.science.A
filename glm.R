@@ -13,19 +13,50 @@ d <- read.csv(paste(wd, "/day 13/death.tree.csv", sep = ""), stringsAsFactors = 
 str(d)
 head(d)
 
+
 # how many sites are there?
 length(unique(d$site))
+
+# method two
+xt <- factor(d$site)
+str(xt)
+levels(xt) <- c("forest", "near.hotel", "forgot.where")
+length(unique(xt))
+
 # 3
 #"let's simplify this and get one site. # 2
 d1 <- d[d$site == 2,]
 
 # how many records are death (0) and survived (1)? 
+length(d1$live[d1$live == 0])
+length(d1$live[d1$live == 1])
+
 table(d1$live)
 
-# let's look into the realtionship between death and diamter
+
+
+
+# let's look into the relationship between death and diamwter
 plot(d1$diam, d1$live)
+
+
 # hard to tell apart.
 # make symbol fill and semitransparant
+?jitter
+
+
+jitter.t <- c(0.2, 0.5)
+col.t <- c("#FF0000", "#00FF00")
+alpha.t <- c(50, "FF")
+plot(d1$diam, jitter(d1$live, jitter.t[1]), pch = 16, col = paste(col.t[1], alpha.t[1], sep =""), las = 1)
+
+
+
+
+# FF000077
+
+
+
 
 col.t <- c("#000000")
 alpha.t <- 77
@@ -45,35 +76,38 @@ plot(d1$diam, jitter(d1$live, jitter.val), col = paste(col.t, alpha.t, sep = "")
 # choose a link function. 0 and 1 data 
 # binomial
 
-
-
 glm.0 <- glm(live ~ diam, data = d1, family = binomial)
 # same as family = binomial(link = "logit")
 
 summary(glm.0)
+# plot the linear values
+x.r <- range(d1$diam)
+y.val <- c((-1.72924 + 0.09611 * x.r[1]), (-1.72924 + 0.09611 * x.r[2]) )
+lines(x.r, y.val)
 # note that the estimates are still on the logit scale
 
 # dispersion = residual deviance / residual DF => should be close to 1
 glm.0$deviance / glm.0$df.residual
 # 1.179295 => very close to 1
 # or coef()
-coef(glm.0)
-
+# if overdispersed you need to choose othr link function
+# also know as 'quasi xxx' function.
+# e.g. quasibinomial or quasipoisson
 
 # let's plot the fitted lines (this is already transformed onto the original scale)
 
 
+str(glm.0)
+glm.0$fitted.values
 
-
-lines(d1$diam, glm.0$fitted.values)
+lines(d1$diam, glm.0$fitted.values, col = "red", lwd = 3)
 
 # small steps to make it nice and smooth
 
-
-
+# range of x values for which I want to predicted value
 diam.range.for.predict <- seq(min(d1$diam), max(d1$diam), 0.1)
 pred.response <- predict(glm.0, list(diam = diam.range.for.predict), type = "response")
-lines(diam.range.for.predict, pred.response, col = "red")
+lines(diam.range.for.predict, pred.response, col = "purple", lwd = 1)
 
 # manually do model reduction
 
@@ -108,8 +142,8 @@ y.5 <- 0.5
 x.start <- min(d1$diam)
 y.start <- 0
 # vertical lines, same x, different y
-lines(rep(x.5, 2), c(y.start, y.5), col = "grey", lty = "dashed")
+lines(rep(x.5, 2), c(y.start, y.5), col = "black", lty = "dashed")
 # horizontal
-lines(c(x.start, x.5), rep(y.5, 2), col = "grey", lty = "dashed")
+lines(c(x.start, x.5), rep(y.5, 2), col = "black", lty = "dashed")
 
 
