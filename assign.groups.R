@@ -1,9 +1,10 @@
 #
-# code to allocate 
+#
+# code to allocate people to different groups 
+# avoid same people multiple times in the same group
 #
 #
 
-set.seed(4)
 names.data.stars <- c("Jordan", "Laura", "Devon", "Sabine", "Frederik", "Karla", "Samuel", "Alicia", "Rachel", "Anika")
 length(names.data.stars)
 
