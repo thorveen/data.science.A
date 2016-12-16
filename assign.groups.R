@@ -84,4 +84,13 @@ colnames(groups.t3)[4] <- "final.assignment"
 #  [9,] "Rachel"         "A"        "E"        "C"             
 # [10,] "Anika"          "A"        "A"        "A"               
 
+# times for group meetings Friday 16th
+# 13:00 group A
+# 13:20 group B
+# 13:40 group C
+# 14:00 group D
+# 14:20 group E
+# 
+
+
 # ==== end ======
