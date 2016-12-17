@@ -92,5 +92,11 @@ colnames(groups.t3)[4] <- "final.assignment"
 # 14:20 group E
 # 
 
+# Meeting Monday 19th in office thor
+# 10:30 group E
+# 11:00 group D
+# 11:30 group C
+# 12:00 group B
+# 12:30 group A
 
 # ==== end ======
