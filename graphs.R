@@ -4,7 +4,7 @@
 # 1) dot plot from scratch
 # 2) use polygon()
 # 3) multipanel using par(fig())
-# 
+# 4) strip chart from scratch
 # 
 #
 
@@ -241,6 +241,32 @@ box("outer", col = col.t[2])
 mtext("OUTER MARGIN (oma = c(1, 1, 1, 1))", side = 3, line = 0, col = col.t[2], outer = TRUE)
 # ------------------------------------------------------------------------------
 
+
+# ------------------------------------------------------------------------------
+# --- 4) a strip chart from scratch 
+
+# make some data
+y <- runif(10, 2, 10)
+gr.t <- c("A", "B") # group names
+groups <- rep(gr.t, 5)
+
+d <- data.frame(cbind(groups, y))
+d$y <- as.numeric(d$y)
+ylim.t <- range(y)
+xlim.t <- c(0.5, 2.5)
+           
+
+col.t <- c("red", "green")  # colours for each group
+wdth.l <- 0.075 # width of the line of the mean of each group
+jitter.t <- 2   # amount of jitter on the x axis
+
+plot(NA, xlim = xlim.t, ylim = ylim.t, xaxt = 'n', las = 1)
+axis(1,  c(1,2), gr.t)  # make a news x axis and add the two groups as labels
+for(i in 1:2){
+  #i <- 2
+  points(jitter( rep(i, length(d$groups[d$groups == gr.t[i]]) ), jitter.t) , d$y[d$groups == gr.t[i]], pch = 16, col =  col.t[i])
+  lines( c((i - wdth.l), (i + wdth.l)), rep( mean(d$y[d$groups == gr.t[i]]), 2) )
+}
 
 
 
