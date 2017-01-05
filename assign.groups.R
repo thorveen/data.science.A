@@ -13,7 +13,6 @@ names <- sample(names.data.stars, length(names.data.stars), replace = FALSE)
 
 (new.groups <- data.frame(groups, names))
 
-
 # for the GLM assignment
 BDC.groups <- c("C", "A", "C", "C", "B", "B", "B", "A", "A", "A")
 (groups.t <- cbind(names.data.stars, BDC.groups))
