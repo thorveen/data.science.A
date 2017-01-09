@@ -85,7 +85,6 @@ t.test(d$weight[d$animal != "fish"] ~ d$animal[d$animal != "fish"])
 # --------- dummy variables
 model.matrix(m1)
 
-
 # ---------- means model
 m1.means <- lm(d$weight ~ d$animal - 1)
 model.matrix(m1.means)
